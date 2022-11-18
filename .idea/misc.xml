@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/developer-corner/FamilyComms/app/src/main/res/layout/activity_main.xml" value="0.19583333333333333" />
+        <entry key="..\:/developer-corner/FamilyComms/app/src/main/res/layout/activity_signin.xml" value="0.19583333333333333" />
+        <entry key="..\:/developer-corner/FamilyComms/app/src/main/res/layout/activity_users_list.xml" value="0.18072916666666666" />
       </map>
     </option>
   </component>

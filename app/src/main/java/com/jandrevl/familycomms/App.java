@@ -22,9 +22,10 @@ public class App extends Application {
                 .build()
         );
 
-//        ParseObject object = new ParseObject("ExampleObject");
-//        object.put("myNumber", "123");
-//        object.put("myString", "rob");
+//        ParseObject object = new ParseObject("NewExampleObject");
+//        object.put("myNumber", "714316");
+//        object.put("myString", "A Number");
+//        object.put("name", "André");
 //
 //        object.saveInBackground(new SaveCallback() {
 //            @Override
@@ -39,6 +40,7 @@ public class App extends Application {
 //
 //
 //        ParseUser.enableAutomaticUser();
+
 
         ParseACL defaultACL = new ParseACL();
         defaultACL.setPublicReadAccess(true);
