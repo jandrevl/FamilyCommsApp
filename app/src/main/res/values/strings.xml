@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Family Comms</string>
+    <string name="password_rules">Regras da Password: não nula, com pelo menos 5 caracteres</string>
 </resources>

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.parse.ParseUser;
@@ -16,9 +17,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ParseUser user = ParseUser.getCurrentUser();
+
         if (user != null) {
+            Log.i("Current user is", user.getUsername());
             Intent intent = new Intent(this, UsersListActivity.class);
             startActivity(intent);
+        } else {
+            Log.i("User is", "null");
         }
     }
 
