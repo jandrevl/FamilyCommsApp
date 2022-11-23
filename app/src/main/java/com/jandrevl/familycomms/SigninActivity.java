@@ -2,10 +2,12 @@ package com.jandrevl.familycomms;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +21,7 @@ public class SigninActivity extends AppCompatActivity {
     EditText newPasswordEditText;
     EditText passwordConfirmEditText;
     TextView passwordRules;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,7 @@ public class SigninActivity extends AppCompatActivity {
         newUsernameEditText = findViewById(R.id.newUserEditText);
         newPasswordEditText = findViewById(R.id.newPasswordEditText);
         passwordConfirmEditText = findViewById(R.id.newPasswordConfirmEditText);
+        progressBar = findViewById(R.id.progressBar);
 
 
 
@@ -41,8 +45,8 @@ public class SigninActivity extends AppCompatActivity {
         String newPassword = newPasswordEditText.getText().toString();
         String passwordConfirm = passwordConfirmEditText.getText().toString();
 
-        if(newUsername.length() < 5) {
-            Toast.makeText(this, "Username tem de ter no mínimo 5 caracteres", Toast.LENGTH_LONG).show();
+        if(newUsername.length() < 4) {
+            Toast.makeText(this, "Username tem de ter no mínimo 4 caracteres", Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -57,6 +61,8 @@ public class SigninActivity extends AppCompatActivity {
             return;
         }
 
+        progressBar.setVisibility(View.VISIBLE);
+
         ParseUser newUser = new ParseUser();
         newUser.setUsername(newUsername);
         newUser.setPassword(newPassword);
@@ -70,8 +76,14 @@ public class SigninActivity extends AppCompatActivity {
                     } catch (ParseException ex) {
                         ex.printStackTrace();
                     }
+                    progressBar.setVisibility(View.INVISIBLE);
                     Log.i("Logged User", ParseUser.getCurrentUser().getUsername());
+                    Intent intent = new Intent(getApplicationContext(), UsersListActivity.class);
+                    startActivity(intent);
+//                    finish();
+
                 } else {
+                    progressBar.setVisibility(View.INVISIBLE);
                     Log.i("New User not created", e.getMessage());
                     Toast.makeText(SigninActivity.this, e.getMessage().toString(), Toast.LENGTH_LONG).show();
                 }
