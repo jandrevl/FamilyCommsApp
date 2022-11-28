@@ -1,6 +1,8 @@
 package com.jandrevl.familycomms;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,6 +27,9 @@ public class UsersListActivity extends AppCompatActivity {
     Intent intent;
     boolean doubleBackToExitPressedOnce = false;
     ArrayList<String> usersList;
+    UserItemData[] userItemDataList;
+    RecyclerView recyclerView;
+    MyListAdapter adapter;
 
     @Override
     public void onBackPressed() {
@@ -50,6 +55,12 @@ public class UsersListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_users_list);
 
         intent = getIntent();
+        recyclerView = findViewById(R.id.recyclerView);
+        adapter = new MyListAdapter(userItemDataList);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        recyclerView.setAdapter(adapter);
+
 
         currentUser = ParseUser.getCurrentUser();
         if (currentUser != null) {
@@ -71,11 +82,22 @@ public class UsersListActivity extends AppCompatActivity {
                         usersList.add(parseUser.getString("username"));
                     }
                     Log.i("Users List", usersList.toString());
+
+                    userItemDataList = new UserItemData[usersList.size()];
+                    for(String username : usersList) {
+                        userItemDataList[usersList.indexOf(username)] = new UserItemData("username", R.drawable.blackhole);
+                    }
+                    Log.i("userItemDataList length", String.valueOf(userItemDataList.length));
+                    adapter.notifyDataSetChanged();
+
+
+
                 } else {
                     e.printStackTrace();
                 }
             }
         });
+
 
 
 
