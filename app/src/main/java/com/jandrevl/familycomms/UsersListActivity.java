@@ -26,10 +26,10 @@ public class UsersListActivity extends AppCompatActivity {
     ParseUser currentUser;
     Intent intent;
     boolean doubleBackToExitPressedOnce = false;
-    ArrayList<String> usersList;
-    UserItemData[] userItemDataList;
     RecyclerView recyclerView;
-    MyListAdapter adapter;
+    RecyclerView.Adapter mAdapter;
+    RecyclerView.LayoutManager layoutManager;
+    List<FamCommUser> famCommUserList = new ArrayList<>();
 
     @Override
     public void onBackPressed() {
@@ -53,14 +53,7 @@ public class UsersListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_users_list);
-
         intent = getIntent();
-        recyclerView = findViewById(R.id.recyclerView);
-        adapter = new MyListAdapter(userItemDataList);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        recyclerView.setAdapter(adapter);
-
 
         currentUser = ParseUser.getCurrentUser();
         if (currentUser != null) {
@@ -70,37 +63,33 @@ public class UsersListActivity extends AppCompatActivity {
             Toast.makeText(this, "Sem sessão iniciada", Toast.LENGTH_SHORT).show();
         }
 
-        usersList = new ArrayList<String>();
+        populateFamCommUserList();
+        Log.i("famCommUserList", famCommUserList.toString());
+
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        mAdapter = new RecycleViewAdapter(famCommUserList, this);
+        recyclerView.setAdapter(mAdapter);
+
+
+    }
+
+    private void populateFamCommUserList() {
+        famCommUserList.clear();
         ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
         query.whereNotEqualTo("username", currentUser.getUsername());
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> parseUsers, ParseException e) {
-                if(e == null) {
-                    for(ParseObject parseUser : parseUsers) {
-                        Log.i("User", parseUser.getString("username"));
-                        usersList.add(parseUser.getString("username"));
-                    }
-                    Log.i("Users List", usersList.toString());
-
-                    userItemDataList = new UserItemData[usersList.size()];
-                    for(String username : usersList) {
-                        userItemDataList[usersList.indexOf(username)] = new UserItemData("username", R.drawable.blackhole);
-                    }
-                    Log.i("userItemDataList length", String.valueOf(userItemDataList.length));
-                    adapter.notifyDataSetChanged();
-
-
-
-                } else {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-
-
-
+        List<ParseObject> queryUsersList = new ArrayList<>();
+        try {
+            queryUsersList = query.find();
+        } catch (ParseException e) {
+            Log.i("Result of parseQuery", e.getMessage());
+        }
+        for(ParseObject parseUser : queryUsersList) {
+            FamCommUser famCommUser = new FamCommUser(parseUser.getString("username"));
+            famCommUserList.add(famCommUser);
+        }
     }
 
     public void changeUser(View view) {
