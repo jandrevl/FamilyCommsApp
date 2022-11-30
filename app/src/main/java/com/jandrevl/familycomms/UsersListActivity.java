@@ -1,5 +1,6 @@
 package com.jandrevl.familycomms;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
@@ -21,7 +23,7 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UsersListActivity extends AppCompatActivity {
+public class UsersListActivity extends AppCompatActivity implements RecycleViewAdapter.OnItemClickListener {
 
     ParseUser currentUser;
     Intent intent;
@@ -70,8 +72,10 @@ public class UsersListActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        mAdapter = new RecycleViewAdapter(famCommUserList, this);
+        mAdapter = new RecycleViewAdapter(famCommUserList, this, this);
         recyclerView.setAdapter(mAdapter);
+
+
 
 
     }
@@ -100,4 +104,10 @@ public class UsersListActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onItemClick(int position) {
+        // Here is where I'll be writing the code to follow to the conversation Activity
+        Log.i("User clicked", famCommUserList.get(position).getUsername());
+
+    }
 }
