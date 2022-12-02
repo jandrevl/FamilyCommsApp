@@ -26,7 +26,6 @@ import java.util.List;
 public class UsersListActivity extends AppCompatActivity implements RecycleViewAdapter.OnItemClickListener {
 
     ParseUser currentUser;
-    Intent intent;
     boolean doubleBackToExitPressedOnce = false;
     RecyclerView recyclerView;
     RecyclerView.Adapter mAdapter;
@@ -55,7 +54,6 @@ public class UsersListActivity extends AppCompatActivity implements RecycleViewA
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_users_list);
-        intent = getIntent();
 
         currentUser = ParseUser.getCurrentUser();
         if (currentUser != null) {
@@ -108,6 +106,9 @@ public class UsersListActivity extends AppCompatActivity implements RecycleViewA
     public void onItemClick(int position) {
         // Here is where I'll be writing the code to follow to the conversation Activity
         Log.i("User clicked", famCommUserList.get(position).getUsername());
+        Intent intent = new Intent(this, ConversationActivity.class);
+        intent.putExtra("receiverUser", famCommUserList.get(position).getUsername());
+        startActivity(intent);
 
     }
 }

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.jandrevl.familycomms">
 
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".App"
@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FamilyComms"
         tools:targetApi="31">
+        <activity
+            android:name=".ConversationActivity"
+            android:exported="false" />
         <activity
             android:name=".UsersListActivity"
             android:exported="false" />
